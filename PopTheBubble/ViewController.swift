@@ -71,6 +71,11 @@ class ViewController: UIViewController {
         view.backgroundColor = .white
         [startButton, timerLabel, scoreLabel, countdownLabel].forEach { view.addSubview($0) }
         
+        // Set background to grass.jpeg from asset catalog "grass"
+        if let grassImage = UIImage(named: "grass") {
+            view.backgroundColor = UIColor(patternImage: grassImage)
+        }
+        
         NSLayoutConstraint.activate([
             timerLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
             timerLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
@@ -161,18 +166,20 @@ class ViewController: UIViewController {
         
         // 20% 機率產生特殊泡泡
         if Int.random(in: 1...5) == 1 {
-            bubble.backgroundColor = .systemRed
+            if let redBubble = UIImage(named: "red_bubble") {
+                bubble.setBackgroundImage(redBubble, for: .normal)
+            }
+
             bubble.tag = specialBubbleTag
         } else {
-            bubble.backgroundColor = .systemBlue
+            if let redBubble = UIImage(named: "blue_bubble") {
+                bubble.setBackgroundImage(redBubble, for: .normal)
+            }
             bubble.tag = 0
         }
         
-        bubble.layer.cornerRadius = bubbleSize / 2
-        bubble.isUserInteractionEnabled = true
         
-        // 將泡泡透明度設定為0.5
-        bubble.alpha = 0.5
+        bubble.isUserInteractionEnabled = true
 
         // 只添加 touchUpInside 事件
         bubble.addTarget(self, action: #selector(bubbleTapped(_:)), for: .touchUpInside)
